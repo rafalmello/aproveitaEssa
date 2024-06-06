@@ -38,7 +38,7 @@ public class ProfessorController {
         if (!professorRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-        professor.setIdProfessor(id);
+        professor.setId(id);
         return ResponseEntity.ok(professorRepository.save(professor));
     }
 

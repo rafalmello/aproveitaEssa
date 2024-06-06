@@ -5,24 +5,25 @@ package udesc.pin1.AproveitaEssaJpa2.model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Professor extends Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idProfessor;
+    //@Id
+   // @GeneratedValue(strategy = GenerationType.IDENTITY)
+   // private Long idProfessor;
 
     private double salario;
 
-    private List<Aluno> alunos;
+    @ManyToMany(mappedBy = "professores")
+    private Set<Aluno> alunos;
 
-    @OneToMany(mappedBy = "modulos")
+    @OneToMany(mappedBy = "professorResponsavel")
     private List<Modulo> modulos;
 
-    public Professor(Long id, String nome, String cpf, String email, String senha, String telefone, Long idProfessor, double salario, List<Aluno> alunos, List<Modulo> modulos) {
+    public Professor(Long id, String nome, String cpf, String email, String senha, String telefone, double salario, Set<Aluno> alunos, List<Modulo> modulos) {
         super(id, nome, cpf, email, senha, telefone);
-        this.idProfessor = idProfessor;
         this.salario = salario;
         this.alunos = alunos;
         this.modulos = modulos;
@@ -32,13 +33,7 @@ public class Professor extends Usuario {
 
     }
 
-    public Long getIdProfessor() {
-        return idProfessor;
-    }
 
-    public void setIdProfessor(Long idProfessor) {
-        this.idProfessor = idProfessor;
-    }
 
     public double getSalario() {
         return salario;
@@ -48,11 +43,11 @@ public class Professor extends Usuario {
         this.salario = salario;
     }
 
-    public List<Aluno> getAlunos() {
+    public Set<Aluno> getAlunos() {
         return alunos;
     }
 
-    public void setAlunos(List<Aluno> alunos) {
+    public void setAlunos(Set<Aluno> alunos) {
         this.alunos = alunos;
     }
 

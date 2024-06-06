@@ -4,6 +4,7 @@ package udesc.pin1.AproveitaEssaJpa2.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Topico {
@@ -13,7 +14,7 @@ public class Topico {
     private Long idTopico;
 
     @ManyToMany(mappedBy = "topicos")
-    private List<Modulo> modulos;
+    private Set<Modulo> modulos;
 
     private int cargaHoraria;
 
@@ -24,7 +25,7 @@ public class Topico {
         EXERCICIO, LINKS, AULA, TEXTO, PROVA
     }
 
-    public Topico(List<Modulo> modulos, int cargaHoraria, TipoTopico tipoTopico) {
+    public Topico(Set<Modulo> modulos, int cargaHoraria, TipoTopico tipoTopico) {
         this.idTopico = idTopico;
         this.modulos = modulos;
         this.cargaHoraria = cargaHoraria;
@@ -43,11 +44,11 @@ public class Topico {
         this.idTopico = id;
     }
 
-    public List<Modulo> getModulos() {
+    public Set<Modulo> getModulos() {
         return modulos;
     }
 
-    public void setModulos(List<Modulo> modulos) {
+    public void setModulos(Set<Modulo> modulos) {
         this.modulos = modulos;
     }
 

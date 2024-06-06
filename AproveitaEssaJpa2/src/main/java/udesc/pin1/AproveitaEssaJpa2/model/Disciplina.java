@@ -3,7 +3,6 @@ package udesc.pin1.AproveitaEssaJpa2.model;
 import jakarta.persistence.*;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,10 +10,11 @@ public class Disciplina {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idDisciplina;
 
-    @ManyToMany(mappedBy = "alunos")
-    private List<Aluno> alunos = new ArrayList<Aluno>();
+    @ManyToOne
+    @JoinColumn(name = "disciplinas")
+    private Aluno alunoDisciplina;
 
     private int ano;
     private int semestre;
@@ -25,9 +25,9 @@ public class Disciplina {
     @ElementCollection
     private List<String> conteudos;
 
-    public Disciplina(Long id,List <Aluno> alunos, int ano, int semestre, String nomeDisciplina, String ementa, String instituicao, List<String> conteudos) {
-        this.id = id;
-        this.alunos = alunos;
+    public Disciplina(Long idDisciplina, Aluno alunoDisciplina, int ano, int semestre, String nomeDisciplina, String ementa, String instituicao, List<String> conteudos) {
+        this.idDisciplina = idDisciplina;
+        this.alunoDisciplina = alunoDisciplina;
         this.ano = ano;
         this.semestre = semestre;
         this.nomeDisciplina = nomeDisciplina;
@@ -40,20 +40,20 @@ public class Disciplina {
 
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdDisciplina() {
+        return idDisciplina;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdDisciplina(Long idDisciplina) {
+        this.idDisciplina = idDisciplina;
     }
 
-    public List <Aluno> getAlunos() {
-        return alunos;
+    public Aluno getAlunos() {
+        return alunoDisciplina;
     }
 
-    public void setAlunos(List<Aluno> alunos) {
-        this.alunos = alunos;
+    public void setAlunos(Aluno aluno) {
+        this.alunoDisciplina = aluno;
     }
 
     public int getAno() {

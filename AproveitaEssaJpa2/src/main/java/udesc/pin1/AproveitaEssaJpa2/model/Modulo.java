@@ -1,7 +1,8 @@
 package udesc.pin1.AproveitaEssaJpa2.model;
 
 import jakarta.persistence.*;
-import java.util.List;
+
+import java.util.Set;
 
 @Entity
 public class Modulo {
@@ -15,26 +16,27 @@ public class Modulo {
     @Transient
     private int cargaHoraria;
 
-
-
-
     @ManyToMany
-    private List<Topico> topicos;
+    @JoinTable(name = "topicos_modulos",
+            joinColumns = @JoinColumn(name = "idModulos"),
+            inverseJoinColumns = @JoinColumn(name = "idTopicos"))
+    private Set<Topico> topicos;
 
     @ManyToOne
+    @JoinColumn(name = "idProfessor")
     private Professor professorResponsavel;
 
     @ManyToOne
     @JoinColumn(name = "idAluno")
-    private Aluno aluno;
+    private Aluno alunoModulo;
 
-    public Modulo(Long idModulo, String nomeModulo, int cargaHoraria, List<Topico> topicos, Professor professorResponsavel, Aluno aluno) {
+    public Modulo(Long idModulo, String nomeModulo, int cargaHoraria, Set<Topico> topicos, Professor professorResponsavel, Aluno alunoModulo) {
         this.idModulo = idModulo;
         this.nomeModulo = nomeModulo;
         this.cargaHoraria = cargaHoraria;
         this.topicos = topicos;
         this.professorResponsavel = professorResponsavel;
-        this.aluno = aluno;
+        this.alunoModulo = alunoModulo;
     }
 
     public Modulo() {
@@ -61,11 +63,11 @@ public class Modulo {
         this.cargaHoraria = cargaHoraria;
     }
 
-    public List<Topico> getTopicos() {
+    public Set<Topico> getTopicos() {
         return topicos;
     }
 
-    public void setTopicos(List<Topico> topicos) {
+    public void setTopicos(Set<Topico> topicos) {
         this.topicos = topicos;
     }
 
@@ -77,12 +79,12 @@ public class Modulo {
         this.professorResponsavel = professorResponsavel;
     }
 
-    public Aluno getAluno() {
-        return aluno;
+    public Aluno getAlunoModulo() {
+        return alunoModulo;
     }
 
-    public void setAluno(Aluno aluno) {
-        this.aluno = aluno;
+    public void setAlunoModulo(Aluno alunoModulo) {
+        this.alunoModulo = alunoModulo;
     }
 
     public int getCargaHoraria() {

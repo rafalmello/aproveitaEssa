@@ -38,7 +38,7 @@ public class DisciplinaController {
         if (!disciplinaRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-        disciplina.setId(id);
+        disciplina.setIdDisciplina(id);
         return ResponseEntity.ok(disciplinaRepository.save(disciplina));
     }
 

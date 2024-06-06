@@ -40,7 +40,7 @@ public class AlunoController {
         if (!alunoRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-        aluno.setIdAluno(id);
+       // aluno.setIdAluno(id);
         return ResponseEntity.ok(alunoRepository.save(aluno));
     }
 
