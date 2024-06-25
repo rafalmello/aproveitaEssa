@@ -3,6 +3,7 @@ package udesc.pin1.AproveitaEssaJpa2.model;
 import jakarta.persistence.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,7 +14,7 @@ public class Disciplina {
     private Long idDisciplina;
 
     @ManyToOne
-    @JoinColumn(name = "disciplinas")
+    @JoinColumn(name = "idAluno")  // Mudança para "aluno_id" para clareza
     private Aluno alunoDisciplina;
 
     private int ano;
@@ -23,7 +24,7 @@ public class Disciplina {
     private String instituicao;
 
     @ElementCollection
-    private List<String> conteudos;
+    private List<String> conteudos = new ArrayList<String>();
 
     public Disciplina(Long idDisciplina, Aluno alunoDisciplina, int ano, int semestre, String nomeDisciplina, String ementa, String instituicao, List<String> conteudos) {
         this.idDisciplina = idDisciplina;
@@ -97,8 +98,16 @@ public class Disciplina {
     }
 
     public List<String> getConteudos() {
+        conteudos.sort(String.CASE_INSENSITIVE_ORDER);
         return conteudos;
     }
+
+
+
+
+
+
+
 
     public void setConteudos(List<String> conteudos) {
         this.conteudos = conteudos;

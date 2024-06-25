@@ -8,25 +8,40 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Professor extends Usuario {
 
-    //@Id
-   // @GeneratedValue(strategy = GenerationType.IDENTITY)
-   // private Long idProfessor;
+public class Professor{
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idProfessor;
+
+    @ManyToMany(mappedBy = "professores")
+    private List<Aluno> alunos;
+
+    @OneToMany(mappedBy = "professorResponsavel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Modulo> modulos;
+
+    private String nome;
+    private String cpf;
+    private String email;
+    private String senha;
+    private String telefone;
 
     private double salario;
 
-    @ManyToMany(mappedBy = "professores")
-    private Set<Aluno> alunos;
 
-    @OneToMany(mappedBy = "professorResponsavel")
-    private List<Modulo> modulos;
 
-    public Professor(Long id, String nome, String cpf, String email, String senha, String telefone, double salario, Set<Aluno> alunos, List<Modulo> modulos) {
-        super(id, nome, cpf, email, senha, telefone);
-        this.salario = salario;
+    public Professor(Long idProfessor, List<Aluno> alunos, List<Modulo> modulos, String nome, String cpf, String email, String senha, String telefone, double salario) {
+        this.idProfessor = idProfessor;
         this.alunos = alunos;
         this.modulos = modulos;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.senha = senha;
+        this.telefone = telefone;
+        this.salario = salario;
     }
 
     public Professor() {
@@ -34,6 +49,54 @@ public class Professor extends Usuario {
     }
 
 
+
+    public Long getIdProfessor() {
+        return idProfessor;
+    }
+
+    public void setIdProfessor(Long idProfessor) {
+        this.idProfessor = idProfessor;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
 
     public double getSalario() {
         return salario;
@@ -43,11 +106,11 @@ public class Professor extends Usuario {
         this.salario = salario;
     }
 
-    public Set<Aluno> getAlunos() {
+    public List<Aluno> getAlunos() {
         return alunos;
     }
 
-    public void setAlunos(Set<Aluno> alunos) {
+    public void setAlunos(List<Aluno> alunos) {
         this.alunos = alunos;
     }
 

@@ -1,46 +1,109 @@
 package udesc.pin1.AproveitaEssaJpa2.model;
 
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.Set;
 
 @Entity
-
-public class Aluno extends Usuario {
-
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long idAluno;
+public class Aluno {
 
 
-    @OneToMany(mappedBy = "alunoDisciplina")
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idAluno; // o id aluno vai ser igual ao id usuario, quando colocar o
+    // idUsuario o id aluno
+    // recebera o mesmo valor idAluno
+    @OneToMany(mappedBy = "alunoDisciplina", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Disciplina> disciplinas;
 
 
-    @OneToMany(mappedBy = "idModulo")
-    private Set<Modulo> modulos;
+
+    @OneToMany(mappedBy = "alunoModulo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)    private Set<Modulo> modulos;
 
     @ManyToMany
     @JoinTable(name = "alunos_Professor",
-            joinColumns = @JoinColumn(name = "idAluno"),
-            inverseJoinColumns = @JoinColumn(name ="idProfessor" ))
+            joinColumns = @JoinColumn(name = "idAluno"),// deveria ser idAluno
+            inverseJoinColumns = @JoinColumn(name ="idProfessor" ))// deveria ser idProfessor
     private Set<Professor> professores;
+
+    private String nome;
+    private String cpf;
+    private String email;
+    private String senha;
+    private String telefone;
 
     private String nomeCurso;
 
-    public Aluno(Long id, String nome, String cpf, String email, String senha, String telefone, String nomeCurso, Long idAluno, Set<Disciplina> disciplinas, Set<Modulo> modulos, Set<Professor> professores) {
-        super(id, nome, cpf, email, senha, telefone);
-        this.nomeCurso = nomeCurso;
-//        this.idAluno = idAluno;
+
+    public Aluno(Long idAluno, Set<Disciplina> disciplinas, Set<Modulo> modulos, Set<Professor> professores, String nome, String cpf, String email, String senha, String telefone, String nomeCurso) {
         this.disciplinas = disciplinas;
         this.modulos = modulos;
         this.professores = professores;
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.senha = senha;
+        this.telefone = telefone;
+        this.nomeCurso = nomeCurso;
     }
+
+
 
     public Aluno() {
 
+    }
+
+    public Long getIdAluno() {
+        return idAluno;
+    }
+
+    public void setIdAluno(Long idAluno) {
+        this.idAluno = idAluno;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public String getNomeCurso() {
@@ -51,13 +114,6 @@ public class Aluno extends Usuario {
         this.nomeCurso = nomeCurso;
     }
 
-//    public Long getIdAluno() {
-//        return idAluno;
-//    }
-
-//    public void setIdAluno(Long idAluno) {
-//        this.idAluno = idAluno;
-//    }
 
     public Set<Disciplina> getDisciplinas() {
         return disciplinas;

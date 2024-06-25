@@ -2,6 +2,7 @@ package udesc.pin1.AproveitaEssaJpa2.model;
 
 import jakarta.persistence.*;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Entity
@@ -11,6 +12,12 @@ public class Modulo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idModulo;
 
+    private int quantTopicos = 0;
+    private int topicosFeitos = 0;
+
+    private double porcentagemFeita = (topicosFeitos / quantTopicos);
+
+
     private String nomeModulo;
 
     @Transient
@@ -18,8 +25,8 @@ public class Modulo {
 
     @ManyToMany
     @JoinTable(name = "topicos_modulos",
-            joinColumns = @JoinColumn(name = "idModulos"),
-            inverseJoinColumns = @JoinColumn(name = "idTopicos"))
+            joinColumns = @JoinColumn(name = "idModulo"),
+            inverseJoinColumns = @JoinColumn(name = "idTopico"))
     private Set<Topico> topicos;
 
     @ManyToOne
@@ -30,12 +37,20 @@ public class Modulo {
     @JoinColumn(name = "idAluno")
     private Aluno alunoModulo;
 
-    public Modulo(Long idModulo, String nomeModulo, int cargaHoraria, Set<Topico> topicos, Professor professorResponsavel, Aluno alunoModulo) {
+    public Modulo(Long idModulo, String nomeModulo, int cargaHoraria, Set<Topico> topicos, int quantTopicos,
+                  int topicosFeitos, double porcentagemFeita, Professor professorResponsavel, Aluno alunoModulo) {
         this.idModulo = idModulo;
         this.nomeModulo = nomeModulo;
         this.cargaHoraria = cargaHoraria;
         this.topicos = topicos;
         this.professorResponsavel = professorResponsavel;
+        this.alunoModulo = alunoModulo;
+        this.topicosFeitos = 0;
+        this.quantTopicos = 0;
+        this.porcentagemFeita = 0;
+    }
+
+    public void setAlunoModulo(Aluno alunoModulo) {
         this.alunoModulo = alunoModulo;
     }
 
@@ -83,9 +98,8 @@ public class Modulo {
         return alunoModulo;
     }
 
-    public void setAlunoModulo(Aluno alunoModulo) {
-        this.alunoModulo = alunoModulo;
-    }
+
+
 
     public int getCargaHoraria() {
         return topicos.stream().mapToInt(Topico::getCargaHoraria).sum();
