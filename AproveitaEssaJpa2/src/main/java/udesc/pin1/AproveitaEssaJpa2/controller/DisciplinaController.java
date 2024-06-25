@@ -16,24 +16,24 @@ public class DisciplinaController {
     @Autowired
     private DisciplinaRepository disciplinaRepository;
 
-    @GetMapping
+    @GetMapping("/todasDisciplinas")
     public List<Disciplina> getAllDisciplinas() {
         return disciplinaRepository.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("buscarBisciplina/{id}")
     public ResponseEntity<Disciplina> getDisciplinaById(@PathVariable Long id) {
         return disciplinaRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("/criarDisciplina")
     public Disciplina createDisciplina(@RequestBody Disciplina disciplina) {
         return disciplinaRepository.save(disciplina);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/atualizarDisciplina/{id}")
     public ResponseEntity<Disciplina> updateDisciplina(@PathVariable Long id, @RequestBody Disciplina disciplina) {
         if (!disciplinaRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
@@ -42,7 +42,7 @@ public class DisciplinaController {
         return ResponseEntity.ok(disciplinaRepository.save(disciplina));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deletarDisciplina/{id}")
     public ResponseEntity<Void> deleteDisciplina(@PathVariable Long id) {
         if (!disciplinaRepository.existsById(id)) {
             return ResponseEntity.notFound().build();

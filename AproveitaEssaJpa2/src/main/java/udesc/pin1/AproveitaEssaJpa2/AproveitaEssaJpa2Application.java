@@ -10,4 +10,5 @@ public class AproveitaEssaJpa2Application {
 		SpringApplication.run(AproveitaEssaJpa2Application.class, args);
 	}
 
+
 }

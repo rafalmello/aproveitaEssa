@@ -20,12 +20,16 @@ public class AdministradorController {
 
     private AdministradorRepository administradorRepository;
 
+    @Autowired
     private ProfessorRepository professorRepository;
 
     private ModuloRepository moduloRepository;
 
+
     private TopicoRepository topicoRepository;
 
+
+    @Autowired
     private DisciplinaRepository disciplinaRepository;
 
 
@@ -118,11 +122,8 @@ public class AdministradorController {
 
 
 
-    @GetMapping("todosAlunos")
-    public List<Aluno> getAllAlunos() {
-        return alunoRepository.findAll();
-    }
 
+    @PostMapping("/loginAdm")
     public void fazerLoginAdm(String email, String senha){
         if (email =="rafa123" && email =="rafa123"){
             //entrar na tela principal de professor
@@ -135,33 +136,11 @@ public class AdministradorController {
         return professorRepository.findAll();
     }
 
-
-    @PostMapping("cadastrarAluno")
-    public Aluno cadastrarAluno(@RequestBody Aluno aluno){
-        return alunoRepository.save(aluno);
-    }
-
-    @PostMapping("cadastrarProfessor")
+    @PostMapping("/cadastrarProfessor")
     public Professor cadastrarProfessor(@RequestBody Professor professor ){
         return professorRepository.save(professor);
     }
-    @PutMapping("atualizarAluno/{id}")
-    public ResponseEntity<Aluno> updateAluno(@PathVariable Long id, @RequestBody Aluno aluno) {
-        if (!alunoRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-         aluno.setIdAluno(id);
-        return ResponseEntity.ok(alunoRepository.save(aluno));
-    }
 
-    @DeleteMapping("deletarAluno/{id}")
-    public ResponseEntity<Void> deleteAluno(@PathVariable Long id) {
-        if (!alunoRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        alunoRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
     @PostMapping("criarProfessor")
     public Professor createProfessor(@RequestBody Professor professor) {
         return professorRepository.save(professor);
@@ -184,6 +163,44 @@ public class AdministradorController {
         professorRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Professor> getProfessorById(@PathVariable Long id) {
+        return professorRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+
+    @PostMapping("/cadastrarAluno")
+    public Aluno cadastrarAluno(@RequestBody Aluno aluno){
+        return alunoRepository.save(aluno);
+    }
+
+
+    @PutMapping("atualizarAluno/{id}")
+    public ResponseEntity<Aluno> updateAluno(@PathVariable Long id, @RequestBody Aluno aluno) {
+        if (!alunoRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+         aluno.setIdAluno(id);
+        return ResponseEntity.ok(alunoRepository.save(aluno));
+    }
+
+    @DeleteMapping("deletarAluno/{id}")
+    public ResponseEntity<Void> deleteAluno(@PathVariable Long id) {
+        if (!alunoRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        alunoRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("todosAlunos")
+    public List<Aluno> getAllAlunos() {
+        return alunoRepository.findAll();
+    }
+
 
 
 }

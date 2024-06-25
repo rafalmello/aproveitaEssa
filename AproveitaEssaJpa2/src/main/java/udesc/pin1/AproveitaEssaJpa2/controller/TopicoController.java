@@ -28,7 +28,7 @@ public class TopicoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("/cadastrarTopico")
     public Topico createTopico(@RequestBody Topico topico) {
         return topicoRepository.save(topico);
     }

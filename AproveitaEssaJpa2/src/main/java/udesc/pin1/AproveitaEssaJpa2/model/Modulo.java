@@ -12,10 +12,10 @@ public class Modulo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idModulo;
 
-    private int quantTopicos = 0;
-    private int topicosFeitos = 0;
+    private int quantTopicos ;
+    private int topicosFeitos ;
 
-    private double porcentagemFeita = (topicosFeitos / quantTopicos);
+    private double porcentagemFeita/* = (topicosFeitos / quantTopicos)*/;
 
 
     private String nomeModulo;
@@ -36,6 +36,9 @@ public class Modulo {
     @ManyToOne
     @JoinColumn(name = "idAluno")
     private Aluno alunoModulo;
+    @ManyToOne
+    @JoinColumn(name = "idAdministrador")
+    private Administrador administradorModulo;
 
     public Modulo(Long idModulo, String nomeModulo, int cargaHoraria, Set<Topico> topicos, int quantTopicos,
                   int topicosFeitos, double porcentagemFeita, Professor professorResponsavel, Aluno alunoModulo) {

@@ -3,6 +3,7 @@ package udesc.pin1.AproveitaEssaJpa2.model;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 import java.util.Set;
@@ -13,6 +14,9 @@ public class Aluno {
 
 
 
+    @ManyToOne
+    @JoinColumn(name = "idAdministrador")
+    private Administrador administradorAluno;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAluno; // o id aluno vai ser igual ao id usuario, quando colocar o
@@ -23,12 +27,15 @@ public class Aluno {
 
 
 
-    @OneToMany(mappedBy = "alunoModulo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)    private Set<Modulo> modulos;
+
+    @OneToMany(mappedBy = "alunoModulo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Modulo> modulos;
+
 
     @ManyToMany
     @JoinTable(name = "alunos_Professor",
-            joinColumns = @JoinColumn(name = "idAluno"),// deveria ser idAluno
-            inverseJoinColumns = @JoinColumn(name ="idProfessor" ))// deveria ser idProfessor
+            joinColumns = {@JoinColumn(name = "idAluno", referencedColumnName = "idAluno")},// deveria ser idAluno
+            inverseJoinColumns = {@JoinColumn(name ="idProfessor" ,referencedColumnName = "idProfessor")})// deveria ser idProfessor
     private Set<Professor> professores;
 
     private String nome;
@@ -38,6 +45,7 @@ public class Aluno {
     private String telefone;
 
     private String nomeCurso;
+
 
 
     public Aluno(Long idAluno, Set<Disciplina> disciplinas, Set<Modulo> modulos, Set<Professor> professores, String nome, String cpf, String email, String senha, String telefone, String nomeCurso) {
@@ -51,6 +59,7 @@ public class Aluno {
         this.telefone = telefone;
         this.nomeCurso = nomeCurso;
     }
+
 
 
 

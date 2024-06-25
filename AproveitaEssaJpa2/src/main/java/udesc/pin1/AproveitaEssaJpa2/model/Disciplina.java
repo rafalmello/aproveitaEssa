@@ -17,6 +17,9 @@ public class Disciplina {
     @JoinColumn(name = "idAluno")  // Mudança para "aluno_id" para clareza
     private Aluno alunoDisciplina;
 
+    @ManyToOne
+    @JoinColumn(name = "idAdministrador")
+    private Administrador administradorDisciplina;
     private int ano;
     private int semestre;
     private String nomeDisciplina;

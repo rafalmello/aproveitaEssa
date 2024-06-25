@@ -21,6 +21,9 @@ public class Professor{
 
     @OneToMany(mappedBy = "professorResponsavel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Modulo> modulos;
+    @ManyToOne
+    @JoinColumn(name = "idAdministrador")
+    private Administrador administradorProfessor;
 
     private String nome;
     private String cpf;
@@ -28,11 +31,11 @@ public class Professor{
     private String senha;
     private String telefone;
 
-    private double salario;
+    private int salario;
 
 
 
-    public Professor(Long idProfessor, List<Aluno> alunos, List<Modulo> modulos, String nome, String cpf, String email, String senha, String telefone, double salario) {
+    public Professor(Long idProfessor, List<Aluno> alunos, List<Modulo> modulos, String nome, String cpf, String email, String senha, String telefone, int salario) {
         this.idProfessor = idProfessor;
         this.alunos = alunos;
         this.modulos = modulos;
@@ -98,11 +101,11 @@ public class Professor{
         this.telefone = telefone;
     }
 
-    public double getSalario() {
+    public int getSalario() {
         return salario;
     }
 
-    public void setSalario(double salario) {
+    public void setSalario(int salario) {
         this.salario = salario;
     }
 

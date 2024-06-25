@@ -5,6 +5,7 @@ package udesc.pin1.AproveitaEssaJpa2.model;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,6 +15,10 @@ public class Topico {
     public static List<String>nomes = new ArrayList<String>();
 
     private String nome;
+
+    @ManyToOne
+    @JoinColumn(name = "idAdministrador")
+    private Administrador administradorTopico;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,9 +36,9 @@ public class Topico {
         EXERCICIO, LINKS, AULA, TEXTO, PROVA
     }
 
-    public Topico(Set<Modulo> modulos, int cargaHoraria, TipoTopico tipoTopico, String nome) {
+    public Topico(/*Set<Modulo> modulos,*/ int cargaHoraria, TipoTopico tipoTopico, String nome) {
         this.idTopico = idTopico;
-        this.modulos = modulos;
+        //this.modulos = new HashSet<Modulo>();
         this.cargaHoraria = cargaHoraria;
         this.tipoTopico = tipoTopico;
         this.nome = nome;

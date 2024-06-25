@@ -7,5 +7,5 @@ import udesc.pin1.AproveitaEssaJpa2.model.Topico;
 import java.util.List;
 
 public interface TopicoRepository extends JpaRepository<Topico,Long> {
-    List <String> findByName (String nome);
+    //List <String> findByName (String nome);
 }
