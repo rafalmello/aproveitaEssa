@@ -29,6 +29,7 @@ public class Disciplina {
     @ElementCollection
     private List<String> conteudos = new ArrayList<String>();
 
+
     public Disciplina(Long idDisciplina, Aluno alunoDisciplina, int ano, int semestre, String nomeDisciplina, String ementa, String instituicao, List<String> conteudos) {
         this.idDisciplina = idDisciplina;
         this.alunoDisciplina = alunoDisciplina;

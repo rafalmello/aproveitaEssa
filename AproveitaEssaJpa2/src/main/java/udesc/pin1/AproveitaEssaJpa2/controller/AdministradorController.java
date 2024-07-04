@@ -9,6 +9,7 @@ import udesc.pin1.AproveitaEssaJpa2.model.*;
 
 import javax.swing.*;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -36,12 +37,13 @@ public class AdministradorController {
     //este método precisa receber uma lista de tópicos para add ao modulo,
     //uma lista de professores para escolher o professor, o id do aluno para add ele
     //e uma disciplina que precisa ser criada antes para que o modulo seja feito a partir dela
-    @PostMapping("/criarModulo/{id}") //fazer algo semelhante a pagina 122 da apostila do professor
+    @PostMapping("/criarModulo") //fazer algo semelhante a pagina 122 da apostila do professor
     public Optional<Modulo> criarModulo( @RequestBody  Long iDaluno,@RequestBody TopicoRepository topicoRepository ){
 
+        Modulo modulo = new Modulo();
         try{
             Long idDoAluno = 0L; // concertar dps esta gambiarra
-            Modulo modulo = new Modulo();
+
             Disciplina disciplina = new Disciplina();
 
 
@@ -91,11 +93,11 @@ public class AdministradorController {
             modulo.setNomeModulo(disciplina.getNomeDisciplina());
             porcentagemAtendida = (quantTopicos / disciplina.getConteudos().size());
             if ( porcentagemAtendida > 0.7){
+
                 new ExeceptionCriarModulo("a porcentagem mínima de " +
                         "70% dos conteúdos da disciplina não foi atentida");
 
-                JOptionPane.showMessageDialog(null,"a porcentagem mínima de" +
-                        "70% dos conteúdos da disciplina não foi atentida");
+                System.out.println("entrou no if dos 70% ");
 
 
             }
@@ -103,6 +105,7 @@ public class AdministradorController {
             return Optional.of(modulo);
 
         }catch (Exception exception){
+            System.out.println("catch");
             new ExeceptionCriarModulo("Não foi Possível criar o módulo");
         }
 
@@ -116,8 +119,74 @@ public class AdministradorController {
 
 
 
-        return null;
+        return Optional.of(moduloRepository.save(modulo));
     }
+
+
+
+
+    @PostMapping("/criarModulo3")
+    public ResponseEntity<Modulo> criarModulo34(@RequestBody Map<String, Long> moduloData) {
+        try {
+            Long idAluno = moduloData.get("idAluno");
+            Long idProfessor = moduloData.get("idProfessor");
+            Long idDisciplina = moduloData.get("idDisciplina");
+
+            Optional<Aluno> alunoOptional = alunoRepository.findById(idAluno);
+            if (!alunoOptional.isPresent()) {
+                return ResponseEntity.badRequest().body(null);
+            }
+
+            Optional<Professor> professorOptional = professorRepository.findById(idProfessor);
+            if (!professorOptional.isPresent()) {
+                return ResponseEntity.badRequest().body(null);
+            }
+
+            Optional<Disciplina> disciplinaOptional = disciplinaRepository.findById(idDisciplina);
+            if (!disciplinaOptional.isPresent()) {
+                return ResponseEntity.badRequest().body(null);
+            }
+
+            Aluno aluno = alunoOptional.get();
+            Professor professor = professorOptional.get();
+            Disciplina disciplina = disciplinaOptional.get();
+
+            Modulo modulo = new Modulo();
+            modulo.setAlunoModulo(aluno);
+            modulo.setProfessorResponsavel(professor);
+            modulo.setNomeModulo(disciplina.getNomeDisciplina());
+           // modulo.setDisciplinaModulo(disciplina);
+
+            //Set<Topico> topicosDoModulo = new HashSet<>();
+            for (Topico topico : topicoRepository.findAll()) {
+                if (disciplina.getConteudos().contains(topico.getNome())) {
+                    //topicosDoModulo.add(topico);
+                }
+            }
+           // modulo.setTopicos(topicosDoModulo);
+           // modulo.setCargaHoraria(topicosDoModulo.stream().mapToInt(Topico::getCargaHoraria).sum());
+
+            Modulo savedModulo = moduloRepository.save(modulo);
+
+            // Atualiza as relações no aluno e professor
+            aluno.getModulos().add(savedModulo);
+            alunoRepository.save(aluno);
+
+            professor.getModulos().add(savedModulo);
+            professorRepository.save(professor);
+
+            return ResponseEntity.ok(savedModulo);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+    // Outros métodos permanecem os mesmos
+
+
+
+
+    // Outros métodos permanecem os mesmos
 
 
 
@@ -131,7 +200,7 @@ public class AdministradorController {
     }
 
 
-    @GetMapping("todosProfesses")
+    @GetMapping("/todosProfessores")
     public List<Professor> getAllProfessores() {
         return professorRepository.findAll();
     }

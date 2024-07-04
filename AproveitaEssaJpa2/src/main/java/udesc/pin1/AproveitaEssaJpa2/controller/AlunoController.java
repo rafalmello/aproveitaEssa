@@ -2,8 +2,8 @@ package udesc.pin1.AproveitaEssaJpa2.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import udesc.pin1.AproveitaEssaJpa2.Repository.AlunoRepository;
 import udesc.pin1.AproveitaEssaJpa2.Repository.ModuloRepository;
@@ -13,7 +13,6 @@ import udesc.pin1.AproveitaEssaJpa2.model.Modulo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -22,8 +21,16 @@ public class AlunoController {
 
     @Autowired
     private AlunoRepository alunoRepository;
-    @Autowired
     private ModuloRepository moduloRepository;
+
+
+   // private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public AlunoController(/*AlunoService userService, PasswordEncoder passwordEncoder*/) {
+        //this.userAlunoService = userService;
+       // this.passwordEncoder = passwordEncoder;
+    }
 
 
 
@@ -37,19 +44,17 @@ public class AlunoController {
     }
 
     // fazer a autentição do login
-    @PostMapping("/fazerLogin")//
-    public ResponseEntity<Aluno> fazerLogin(/* String email, String senha */ /**/@RequestParam Map<String, String> loginData) {
-        String email = loginData.get("email");
-        String senha = loginData.get("senha");
 
-        Aluno aluno = alunoRepository.findByEmail(email);
-
-        aluno.getSenha();
-        if (aluno != null && aluno.getSenha().equals(senha)) {
-            return ResponseEntity.ok(aluno);
+    //Controller
+   /* @PostMapping("/fazerLogin")
+    public String login(@RequestBody Aluno aluno) {
+       /* Aluno existingAluno = userAlunoService.findByEmail(aluno.getEmail());
+        if (existingAluno != null && passwordEncoder.matches(aluno.getSenha(), existingAluno.getSenha())){
+            return "login realizado com sucesso";
+        } else {
+            return "Credências Invalidas";
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    }
+    }*/
 
     @PostMapping("/criarModulo")
     public Optional<Modulo> criarModulo(){

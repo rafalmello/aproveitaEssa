@@ -17,8 +17,11 @@ public class DisciplinaController {
     private DisciplinaRepository disciplinaRepository;
 
     @GetMapping("/todasDisciplinas")
-    public List<Disciplina> getAllDisciplinas() {
-        return disciplinaRepository.findAll();
+    public ResponseEntity<List<Disciplina>> getAllDisciplinas() {
+        if (disciplinaRepository.findAll().isEmpty()){
+            return ResponseEntity.noContent().build();// faz o retorno do 204
+        }
+        return ResponseEntity.ok(disciplinaRepository.findAll());
     }
 
     @GetMapping("buscarBisciplina/{id}")
@@ -29,8 +32,8 @@ public class DisciplinaController {
     }
 
     @PostMapping("/criarDisciplina")
-    public Disciplina createDisciplina(@RequestBody Disciplina disciplina) {
-        return disciplinaRepository.save(disciplina);
+    public ResponseEntity<Disciplina> createDisciplina(@RequestBody Disciplina disciplina) {
+        return ResponseEntity.ok(disciplinaRepository.save(disciplina));
     }
 
     @PutMapping("/atualizarDisciplina/{id}")
